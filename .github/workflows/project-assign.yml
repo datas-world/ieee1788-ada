@@ -1,0 +1,30 @@
+name: Project Assignment
+
+# Adds issues and PRs to the repository's own project board.
+# The project URL is read from the PROJECT_URL repository variable.
+# If the variable is not set this workflow is a no-op.
+#
+# To enable: set a PROJECT_URL repository variable in the repo's Settings →
+# Variables, e.g. https://github.com/orgs/datas-world/projects/3
+#
+# Full specification:
+#   https://github.com/datas-world/.github/blob/main/.github/workflows/project-assign.yml
+
+on:
+  issues:
+    types: [opened, reopened, transferred]
+  pull_request:
+    types: [opened, reopened, ready_for_review]
+
+permissions: {}
+
+jobs:
+  assign-to-project:
+    if: vars.PROJECT_URL != ''
+    uses: datas-world/.github/.github/workflows/project-assign.yml@main
+    with:
+      project_url: ${{ vars.PROJECT_URL }}
+    permissions:
+      issues: read
+      pull-requests: read
+    secrets: inherit
