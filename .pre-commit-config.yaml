@@ -31,6 +31,12 @@
 # from your version. This exception does not (and cannot) modify any license terms
 # which apply to the Application, with which you must still comply.
 
+ci:
+  autofix_commit_msg: "chore(pre-commit): auto fixes from pre-commit.ci hooks"
+  autoupdate_commit_msg: "chore(pre-commit): update hook revisions"
+  autoupdate_schedule: weekly
+  skip: []  # all hooks compatible with pre-commit.ci runners
+
 repos:
 - repo: https://github.com/gitleaks/gitleaks
   rev: v8.28.0
