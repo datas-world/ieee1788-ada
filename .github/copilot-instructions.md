@@ -1,119 +1,71 @@
-# Copilot Instructions for IEEE 1788 Ada Library
+# Copilot Instructions -- datas-world/.github
 
-Always reference existing repository documentation first before using search or
-bash commands.
+Organisation-level GitHub infrastructure: reusable workflows, community health files,
+and AI agent support files.
 
-## Required Reading
+**See also:** [AGENTS.md](../AGENTS.md) ? [.github/AGENTS.md](AGENTS.md)
 
-For general project information, build instructions, and contribution
-guidelines, refer to:
+## What this repository contains
 
-- [README.md](../README.md) - Project overview, build instructions, toolchain
-  setup
-- [CONTRIBUTING.md](../CONTRIBUTING.md) - Contribution guidelines and
-  development process
-- [.github/workflows/cicd.yaml](workflows/cicd.yaml) - Complete CI/CD workflow
-  with verified commands
+- **Community health files** at the repo root: `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`,
+  `SECURITY.md`, `README.md`, `LICENSE`
+- **Reusable workflows** in `.github/workflows/` -- all triggered by `on: workflow_call`
+- **Issue templates** in `.github/ISSUE_TEMPLATE/`
+- **AI agent files** in `.github/` (instructions, agents, prompts, this file)
 
-## Copilot-Specific Development Notes
+There is **no application code** here -- no TypeScript, no Python, no build step, no tests.
 
-### Sandboxed Environment Setup
+## Workflow authoring rules
 
-```bash
-# PATH configuration for Alire in sandboxed environment
-export PATH=$PATH:/home/runner/.alire/bin
-```
+- **SHA-pin every `uses:`**: `actions/checkout@<40-char-SHA>  # v4.2.2`
+- **`permissions: {}`** at workflow level; each job declares its own minimum.
+- **`runs-on` for API-only jobs**: `runs-on: ubuntu-slim`
+- **CodeQL and npm jobs** stay on `ubuntu-latest` -- they need specific tooling and
+  may exceed the 15-minute slim limit.
+- **Job `name:` is the status-check context** -- never rename without updating branch
+  protection in all calling repos.
+- Every reusable workflow **must** declare `on: workflow_call` and
+  `permissions: {}` at the workflow level.
+- For full authoring rules, runner selection details, and the ubuntu-slim pre-installed
+  tool table see `.github/instructions/github-actions.instructions.md`.
 
-### Critical Timing and Automation Warnings
+## Community health files
 
-- **Toolchain installation**: Typically takes 15-30 seconds (may vary by system
-  configuration and network speed) - **NEVER CANCEL**
-- **GNATformat installation**: Takes 10+ minutes - Set timeout to 15+ minutes,
-  **NEVER CANCEL**
-- **Regular builds**: < 5 seconds - **NEVER CANCEL**
-- **Test execution**: < 10 seconds total - **NEVER CANCEL**
-- **Pre-commit hooks**: 3-10 minutes, may fail due to network issues - Set
-  timeout to 10+ minutes
+- `CODE_OF_CONDUCT.md` includes an explicit scope clause: it does **not** apply to
+  private repositories, personal projects, or proprietary work. Preserve this clause.
+- `SECURITY.md` must never promise specific response timelines -- the org-wide policy
+  is "no commitment to response timeline".
+- `CONTRIBUTING.md` is access-controlled -- never use open-source-style language like
+  "anyone can contribute" or "fork and send a PR".
+- `README.md` is the org profile shown on `github.com/datas-world`. Keep it accurate
+  and current.
 
-### Ada Style Validation Requirements
+## Conventional Commits
 
-- `alr build --validation` will FAIL if style issues exist
-- Always run `alr build` first to see style warnings before attempting
-  `--validation`
-- Known style issue pattern: Array initializers need space after `[` (check
-  `src/ieee1788.adb`)
+All commit messages follow [Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/).
+Valid types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`,
+`chore`, `revert`. Breaking changes: `feat!:` or `BREAKING CHANGE:` footer.
 
-### Essential Validation Workflow
+**No `v` prefix** on any tag: `1.0.0`, not `v1.0.0`.
 
-1. **Build validation**: `alr build` (must succeed, style warnings acceptable)
-2. **Test validation**: `cd tests && alr build && alr run` (must pass all
-   tests)
-3. **Style validation**: `alr build --validation` (must succeed after fixing
-   style issues)
-4. **Formal verification**: `alr gnatprove --proof=progressive:all --level=4
-   -j0` (should complete without errors)
+## Milestone and topic workflows use TypeScript actions
 
-### Pre-commit Hook Management
+`milestone-assign.yml` and `sync-topics-node.yml` delegate to private org actions
+(not inline shell). To upgrade either action, build a new orphan release commit
+in the action repo and update the SHA-pinned `uses:` line here.
 
-- **Apply fixes automatically**: Run `pre-commit run --all-files` to apply
-  automatic fixes from hooks
-- **Critical requirement**: All pre-commit hooks must pass before committing
-  changes
-- **Hook types include**: Code formatting, linting, security scanning, file
-  validation
-- **Timeout handling**: Set 10+ minute timeouts for pre-commit operations due
-  to network dependencies
-- **Manual intervention**: If hooks fail after automatic fixes, report specific
-  failures to developer
+| Workflow | Action repo | Current version |
+|---|---|---|
+| `milestone-assign.yml` | `datas-world/action-milestone-assign` | `0.1.0` |
+| `sync-topics-node.yml` | `datas-world/action-sync-topics-node` | `0.1.0` |
 
-### GNAT Warning Resolution
+SemVer bump logic: `breaking change` ? major, `enhancement` ? minor, all other labels ? patch.
+See the action repo for full implementation details and tests.
 
-- **Zero tolerance policy**: All GNAT warnings must be resolved before
-  validation passes
-- **Warning sources**: Build warnings, style violations, formal verification
-  issues
-- **Resolution workflow**:
-  1. Run `alr build` to identify all warnings
-  2. Apply automatic fixes where possible (formatting, style)
-  3. Manual fixes required for logic/semantic warnings
-  4. Re-run `alr build --validation` to confirm resolution
-- **Escalation protocol**: Report any warnings that cannot be automatically
-  resolved to developer/engineer with specific error details and suggested
-  manual fixes
+## When you add a new reusable workflow
 
-### Expected Test Output Format
-
-```xml
-<?xml version='1.0' encoding='utf-8' ?>
-<TestRun>
-  <Statistics>
-    <Tests>[number > 0]</Tests>
-    <FailuresTotal>0</FailuresTotal>
-    <Failures>0</Failures>
-    <Errors>0</Errors>
-  </Statistics>
-  <SuccessfulTests>
-    <Test>
-      <Name>[test name]</Name>
-    </Test>
-    <!-- Additional successful tests may appear here -->
-  </SuccessfulTests>
-</TestRun>
-```
-
-### Agent-Specific Troubleshooting
-
-- **Network restrictions**: Alire package downloads are generally reliable,
-  but pre-commit may timeout
-- **Coverage testing**: Complex multi-step process - avoid unless specifically
-  needed, primarily for CI
-- **Missing tools**: Run `alr install gnat_native gprbuild gnatcov` if build
-  fails
-- **PATH issues**: Ensure `/home/runner/.alire/bin` is in PATH for tool
-  access
-
-### File Locations for Quick Reference
-
-- Main library: `src/ieee1788.ads`, `src/ieee1788.adb`
-- Test suite: `tests/src/` (separate Alire project)
-- Project config: `alire.toml`, `ieee1788.gpr`
+1. Add it to `.github/workflows/` following the SHA-pinning and permissions rules above.
+2. Update `AGENTS.md` (root) -- add it to the "Reusable workflow catalogue" table.
+3. Update `.github/AGENTS.md` -- document any new patterns it introduces.
+4. Update `.github/instructions/github-actions.instructions.md` if it uses new patterns.
+5. Consider whether a new `.github/prompts/*.prompt.md` would help callers.
