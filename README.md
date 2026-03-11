@@ -24,23 +24,30 @@ Do not use it not baselined/ unreleased or with a baseline/ release below
 ## Status Badges
 
 - [![Best Practices][best-practices-badge]][best-practices-url]
+- [![OpenSSF Scorecard][scorecard-badge]][scorecard-url]
 - [![CI/ CD][cicd-badge]][cicd-url]
 - [![Code Coverage][codecov-badge]][codecov-url]
 - [![Dependency Review][dep-review-badge]][dep-review-url]
 - [![Dependabot Updates][dependabot-badge]][dependabot-url]
-- [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/torsknod2/ieee1788-ada.svg)](http://isitmaintained.com/project/torsknod2/ieee1788-ada "Average time to resolve an issue")
-- [![Percentage of issues still open](http://isitmaintained.com/badge/open/torsknod2/ieee1788-ada.svg)](http://isitmaintained.com/project/torsknod2/ieee1788-ada "Percentage of issues still open")
+- [![Average time to resolve an issue][isitmaintained-resolution-badge]][isitmaintained-resolution-url]
+- [![Percentage of issues still open][isitmaintained-open-badge]][isitmaintained-open-url]
 
 [best-practices-badge]: https://bestpractices.coreinfrastructure.org/projects/10022/badge
 [best-practices-url]: https://bestpractices.coreinfrastructure.org/projects/10022
-[cicd-badge]: https://github.com/torsknod2/ieee1788-ada/actions/workflows/cicd.yaml/badge.svg
-[cicd-url]: https://github.com/torsknod2/ieee1788-ada/actions/workflows/cicd.yaml
-[codecov-badge]: https://codecov.io/gh/torsknod2/ieee1788-ada/graph/badge.svg?token=KSOUO8UJSL
-[codecov-url]: https://codecov.io/gh/torsknod2/ieee1788-ada
-[dep-review-badge]: https://github.com/torsknod2/ieee1788-ada/actions/workflows/dependency-review.yml/badge.svg
-[dep-review-url]: https://github.com/torsknod2/ieee1788-ada/actions/workflows/dependency-review.yml
-[dependabot-badge]: https://github.com/torsknod2/ieee1788-ada/actions/workflows/dependabot/dependabot-updates/badge.svg
-[dependabot-url]: https://github.com/torsknod2/ieee1788-ada/actions/workflows/dependabot/dependabot-updates
+[scorecard-badge]: https://api.securityscorecards.dev/projects/github.com/datas-world/ieee1788-ada/badge
+[scorecard-url]: https://securityscorecards.dev/viewer/?uri=github.com/datas-world/ieee1788-ada
+[cicd-badge]: https://github.com/datas-world/ieee1788-ada/actions/workflows/cicd.yaml/badge.svg?branch=main
+[cicd-url]: https://github.com/datas-world/ieee1788-ada/actions/workflows/cicd.yaml
+[codecov-badge]: https://codecov.io/gh/datas-world/ieee1788-ada/branch/main/graph/badge.svg
+[codecov-url]: https://codecov.io/gh/datas-world/ieee1788-ada
+[dep-review-badge]: https://github.com/datas-world/ieee1788-ada/actions/workflows/dependency-review.yml/badge.svg?branch=main
+[dep-review-url]: https://github.com/datas-world/ieee1788-ada/actions/workflows/dependency-review.yml
+[dependabot-badge]: https://github.com/datas-world/ieee1788-ada/actions/workflows/dependabot/dependabot-updates/badge.svg
+[dependabot-url]: https://github.com/datas-world/ieee1788-ada/actions/workflows/dependabot/dependabot-updates
+[isitmaintained-resolution-badge]: https://isitmaintained.com/badge/resolution/datas-world/ieee1788-ada.svg
+[isitmaintained-resolution-url]: https://isitmaintained.com/project/datas-world/ieee1788-ada
+[isitmaintained-open-badge]: https://isitmaintained.com/badge/open/datas-world/ieee1788-ada.svg
+[isitmaintained-open-url]: https://isitmaintained.com/project/datas-world/ieee1788-ada
 
 ## Getting Started
 
@@ -99,8 +106,8 @@ This documentation is automatically updated on each push to the
 - TODO: Test coverage reports
 - TODO: Formal verification results
 
-[main-branch]: https://github.com/torsknod2/ieee1788-ada/tree/main
-[github-page]: https://torsknod2.github.io/ieee1788-ada
+[main-branch]: https://github.com/datas-world/ieee1788-ada/tree/main
+[github-page]: https://datas-world.github.io/ieee1788-ada
 
 ## Contribute
 
