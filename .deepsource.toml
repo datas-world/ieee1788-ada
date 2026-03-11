@@ -1,0 +1,19 @@
+version = 1
+
+# Ada is not natively supported by DeepSource analyzers.
+# Shell, Python (helper scripts), and secrets scanning are enabled where applicable.
+
+[[analyzers]]
+name = "shell"
+enabled = true
+
+[[analyzers]]
+name = "python"
+enabled = true
+
+  [analyzers.meta]
+  runtime_version = "3.x.x"
+
+[[analyzers]]
+name = "secrets"
+enabled = true
